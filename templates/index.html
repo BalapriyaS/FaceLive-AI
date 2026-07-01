@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Face Liveness Detection System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="nav-icon">🧬</span>
+    <span class="nav-title">FaceLive<span class="accent">AI</span></span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-badge" id="sessionBadge">⬤ Idle</span>
+    <button class="btn-icon" id="themeToggle" title="Toggle Dark/Light Mode">🌙</button>
+  </div>
+</nav>
+
+<main class="container">
+
+  <header class="page-header">
+    <h1>FaceVerify AI</h1>
+    <p class="subtitle">Real-time Anti-Spoofing System</p>
+  </header>
+
+  <div class="grid-top">
+
+    <section class="card camera-card">
+      <div class="card-header">
+        <span>📷 Camera Feed</span>
+        <span class="fps-badge" id="fpsBadge">0 FPS</span>
+      </div>
+
+      <div class="video-wrapper" id="videoWrapper">
+        <div class="loading-overlay" id="loadingOverlay">
+          <div class="spinner"></div>
+          <p>Starting camera…</p>
+        </div>
+
+        <div class="face-lost-overlay hidden" id="faceLostOverlay">
+          ⚠️ Face Not Detected
+        </div>
+
+        <div class="verified-stamp hidden" id="verifiedStamp">✅ LIVE</div>
+
+        <video id="localVideo" autoplay muted playsinline></video>
+        <canvas id="localCanvas" style="display:none"></canvas>
+        <img   id="annotatedImg" alt="Annotated feed" />
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-start" id="startBtn" onclick="startDetection()">▶ Start Detection</button>
+        <button class="btn btn-stop  hidden" id="stopBtn" onclick="stopDetection()">■ Stop</button>
+      </div>
+    </section>
+
+    <section class="card challenge-card">
+      <div class="card-header">🎯 Current Challenge</div>
+
+      <div class="challenge-instruction" id="challengeInstruction">
+        Press <strong>Start Detection</strong> to begin
+      </div>
+
+      <div class="timer-bar-wrap">
+        <div class="timer-bar" id="timerBar"></div>
+      </div>
+      <div class="timer-label" id="timerLabel">—</div>
+
+      <div class="progress-section">
+        <div class="progress-label">
+          <span>Challenges</span>
+          <span id="progressText">0 / 3</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="section-label">History</div>
+      <ul class="challenge-history" id="challengeHistory">
+        <li class="history-placeholder">No challenges attempted yet.</li>
+      </ul>
+    </section>
+
+  </div>
+
+
+  <div class="grid-metrics">
+
+    <div class="metric-card status-card">
+      <div class="metric-label">Detection Status</div>
+      <div class="status-badge" id="statusBadge">—</div>
+      <div class="spoof-reason" id="spoofReason"></div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Liveness Score</div>
+      <div class="big-number" id="livenessScore">—</div>
+      <div class="gauge-wrap">
+        <div class="gauge-fill" id="gaugeFill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Eye Aspect Ratio</div>
+      <div class="big-number" id="earValue">—</div>
+      <div class="sub-label" id="blinkCount">Blinks: 0</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Head Pose</div>
+      <div class="big-number direction-icon" id="headDir">—</div>
+      <div class="sub-label" id="yawPitch"></div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Mouth / Smile</div>
+      <div class="big-number" id="mouthStatus">—</div>
+      <div class="sub-label" id="mouthRatio"></div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Frame Motion</div>
+      <div class="big-number" id="motionValue">—</div>
+      <div class="sub-label" id="textureValue"></div>
+    </div>
+
+  </div>
+
+
+  <div class="grid-bottom">
+
+    <section class="card">
+      <div class="card-header">📋 Detection History</div>
+      <ul class="detection-history" id="detectionHistory">
+        <li class="history-placeholder">No events recorded yet.</li>
+      </ul>
+    </section>
+
+  </div>
+
+</main>
+
+<div class="modal-overlay hidden" id="verifiedModal">
+  <div class="modal-box">
+    <div class="modal-icon">✅</div>
+    <h2>Live Person Verified!</h2>
+    <p>All challenges completed successfully.<br>Identity confirmed as a live human.</p>
+    <button class="btn btn-start" onclick="closeModal()">OK</button>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
