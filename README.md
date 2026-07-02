@@ -192,7 +192,7 @@ Final "Live" status requires **both**:
 ## 🙋 Author
 
 S. Bala Priya
-BE Computer Science (AI & ML)
+BE CSE (AIML)
 VSB Engineering College,Karur
 
 ---
